@@ -1,0 +1,10 @@
+.square {
+    min-height: 30px;
+    min-width: 30px;
+}
+
+.row {
+    overflow-y: auto;
+    vertical-align: middle;
+    outline: dashed 1px black;
+}
