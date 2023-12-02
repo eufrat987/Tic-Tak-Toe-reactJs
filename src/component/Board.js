@@ -9,8 +9,8 @@ export default function Board(
         handleClick
     }) {
     
-    return <>
-    <div> 
+    return <div className="board">
+    <div className="row"> 
     {
         winner == null 
         ? "Next player: " + player 
@@ -35,5 +35,5 @@ export default function Board(
     <Square value={grid[2][1]} onClick={() => handleClick(2, 1)}/>
     <Square value={grid[2][2]} onClick={() => handleClick(2, 2)}/>
     </div>
-    </>
+    </div>
 }

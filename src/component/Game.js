@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Board from "./Board";
+import History from "./History";
 
 export default function Game() {
     const [player, setPlayer] = useState("X")
@@ -9,9 +10,11 @@ export default function Game() {
         ["", "", ""],
         ["", "", ""]
     ]])
-    const grid = history[history.length-1]
+    const [move, setMove] = useState(0)
+    const grid = history[move]
+    console.log(grid, move, history.length)
     
-
+    
     const isWin = () => {
         const lines = [
             [[0 ,0], [0, 1], [0, 2]], // -
@@ -40,21 +43,31 @@ export default function Game() {
         if (grid[i][j] == "" && winner == null) {
             const newGrid = grid.slice()
             newGrid[i][j] = player
-            const newHistory = history.slice()
-            newHistory.push(newGrid)
-            setHistory(newHistory)
+            setHistory([...history, newGrid])
+            setMove(history.length-1)
             isWin()
             if (winner == null) {
                 setPlayer(p => p=='X' ? 'O' : 'X')
             }
         }
     }
-
-
-    return <Board 
+    
+    function handleHistory(index) {
+        console.log(index)
+        setMove(index)
+    }
+    
+    
+    return <div className="game">
+    <Board 
     player={player} 
     winner={winner}
     grid={grid} 
     handleClick={handleClick}
     />
+    <History 
+    history={history}
+    handleClick={handleHistory}
+    />
+    </div>
 }

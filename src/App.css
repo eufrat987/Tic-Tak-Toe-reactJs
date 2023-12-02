@@ -3,3 +3,10 @@
     min-width: 30px;
 }
 
+.board {
+    display: grid;
+}
+
+.game {
+    display: flex;   
+}
