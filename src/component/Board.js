@@ -9,23 +9,31 @@ export default function Board() {
         ["", "", ""]
     ])
 
+    const handleClick = (i, j) => {
+        if (grid[i][j] == "") {
+            grid[i][j] = player
+            setGrid(grid)
+            setPlayer(p => p=='X' ? 'O' : 'X')
+        }
+    }
+
     return <>
     <div className='row'>
-    <Square pos={{x:0, y:0}} setPlayer={setPlayer} setGrid={setGrid} grid={grid}/>
-    <Square pos={{x:0, y:1}} setPlayer={setPlayer} setGrid={setGrid} grid={grid}/>
-    <Square pos={{x:0, y:2}} setPlayer={setPlayer} setGrid={setGrid} grid={grid}/>
+    <Square value={grid[0][0]} onClick={() => handleClick(0, 0)}/>
+    <Square value={grid[0][1]} onClick={() => handleClick(0, 1)}/>
+    <Square value={grid[0][2]} onClick={() => handleClick(0, 2)}/>
     </div>
     
     <div className='row'>
-    <Square pos={{x:1, y:0}} setPlayer={setPlayer} setGrid={setGrid} grid={grid}/>
-    <Square pos={{x:1, y:1}} setPlayer={setPlayer} setGrid={setGrid} grid={grid}/>
-    <Square pos={{x:1, y:2}} setPlayer={setPlayer} setGrid={setGrid} grid={grid}/>
+    <Square value={grid[1][0]} onClick={() => handleClick(1, 0)}/>
+    <Square value={grid[1][1]} onClick={() => handleClick(1, 1)}/>
+    <Square value={grid[1][2]} onClick={() => handleClick(1, 2)}/>
     </div>
     
     <div className='row'>
-    <Square pos={{x:2, y:0}} setPlayer={setPlayer} setGrid={setGrid} grid={grid}/>
-    <Square pos={{x:2, y:1}} setPlayer={setPlayer} setGrid={setGrid} grid={grid}/>
-    <Square pos={{x:2, y:2}} setPlayer={setPlayer} setGrid={setGrid} grid={grid}/>
+    <Square value={grid[2][0]} onClick={() => handleClick(2, 0)}/>
+    <Square value={grid[2][1]} onClick={() => handleClick(2, 1)}/>
+    <Square value={grid[2][2]} onClick={() => handleClick(2, 2)}/>
     </div>
     </>
 }
