@@ -4,7 +4,7 @@ import History from "./History";
 
 export default function Game() {
     const [move, setMove] = useState(0)
-    const [player, setPlayer] = useState("X")
+    const player = move % 2 == 0 ? 'X' : 'O'
     const [winner, setWinner] = useState(null)
     const [history, setHistory] = useState([[
         ["", "", ""],
@@ -13,10 +13,9 @@ export default function Game() {
     ]])
     
     const grid = history[move]
-    console.log(history.map(h => h.toString()), move)
     
-    
-    const isWin = () => {
+    const isWin = (grid) => {
+        console.log('for: ' + player)
         const lines = [
             [[0 ,0], [0, 1], [0, 2]], // -
             [[1 ,0], [1, 1], [1, 2]],
@@ -28,14 +27,22 @@ export default function Game() {
             [[0, 2], [1, 1], [2, 0]]
         ]
         for (const line of lines) {
-            let winnerReq = 3
+            let winnerXReq = 3
+            let winnerOReq = 3
             for (const position of line) {
-                if (grid[position[0]][position[1]] == player) {
-                    winnerReq--;
+                if (grid[position[0]][position[1]] == 'X') {
+                    winnerXReq--;
+                }
+                if (grid[position[0]][position[1]] == 'O') {
+                    winnerOReq--;
                 }
             }
-            if (winnerReq==0) {
-                setWinner(player)
+            if (winnerXReq==0) {
+                setWinner('X')
+                return
+            }
+            if (winnerOReq==0) {
+                setWinner('O')
                 return
             }
         }
@@ -45,16 +52,17 @@ export default function Game() {
         if (grid[i][j] == "" && winner == null) {
             const newGrid = deepCopy(grid)
             newGrid[i][j] = player
-            const newHistory = [...deepCopy(history), newGrid]
+            const newHistory = [...deepCopy(history.slice(0, move+1)), newGrid]
             setHistory(newHistory)
             setMove(newHistory.length-1)
-            isWin()
-            setPlayer(p => (p=='X') ? 'O' : 'X')
+            isWin(newGrid)            
         }
     }
     
     function handleHistory(index) {
+        setWinner(null)
         setMove(index)
+        isWin(history[index])
     }
     
     
