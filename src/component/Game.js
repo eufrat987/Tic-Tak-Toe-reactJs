@@ -3,6 +3,7 @@ import Board from "./Board";
 import History from "./History";
 
 export default function Game() {
+    const [move, setMove] = useState(0)
     const [player, setPlayer] = useState("X")
     const [winner, setWinner] = useState(null)
     const [history, setHistory] = useState([[
@@ -10,9 +11,9 @@ export default function Game() {
         ["", "", ""],
         ["", "", ""]
     ]])
-    const [move, setMove] = useState(0)
+    
     const grid = history[move]
-    console.log(grid, move, history.length)
+    console.log(history.map(h => h.toString()), move)
     
     
     const isWin = () => {
@@ -35,25 +36,24 @@ export default function Game() {
             }
             if (winnerReq==0) {
                 setWinner(player)
+                return
             }
         }
     }
     
     const handleClick = (i, j) => {
         if (grid[i][j] == "" && winner == null) {
-            const newGrid = grid.slice()
+            const newGrid = deepCopy(grid)
             newGrid[i][j] = player
-            setHistory([...history, newGrid])
-            setMove(history.length-1)
+            const newHistory = [...deepCopy(history), newGrid]
+            setHistory(newHistory)
+            setMove(newHistory.length-1)
             isWin()
-            if (winner == null) {
-                setPlayer(p => p=='X' ? 'O' : 'X')
-            }
+            setPlayer(p => (p=='X') ? 'O' : 'X')
         }
     }
     
     function handleHistory(index) {
-        console.log(index)
         setMove(index)
     }
     
@@ -70,4 +70,9 @@ export default function Game() {
     handleClick={handleHistory}
     />
     </div>
+}
+
+
+function deepCopy(obj) {
+    return JSON.parse(JSON.stringify(obj))
 }
